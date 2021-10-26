@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    .f-container{
+      display:flex;	
+    }
+    .f-item{
+      width: 500px;
+    }
+    
+    .item {
+      width: 300px;
+      margin-top: -1px;
+      padding: .5em 1.1em;
+      color: #555;
+      font-family: 'Saira Semi Condensed', sans-serif;
+      border: 1px solid #ccc;
+      background-color: #fff;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      cursor: default;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .lispan {
+      width: 200px;
+    }
+
+    .inaction {
+      background-color: rgb(235, 133, 50);
+      color: #fff;
+    }
+
+    .loser {
+      background-color: #666;
+      color: #000;
+    }
+
+    .unsaved{
+      color: #ff0000;
+    }
+
+  </style>
+</head>
+
+<body>
+  <small>※プレイヤー名を改行で区切ることで一度に複数登録できます<br>
+    ※保存ボタンを押すまで画面には反映されません</small>
+  <hr>
+  <div class="f-container">
+    <div class="f-item">
+  <div id="red">
+    紅組
+  </div>
+  <div id="r_status"></div>
+  <hr>
+  <textarea id="redMembers" rows="4" cols="40"></textarea>
+  <button id="redTextButton">追加</button>
+  <button id="redSaveButton">保存・更新</button>
+  <button id="redClearButton">全削除</button>
+</div>
+<div class="f-item">
+  <div id="white">
+    白組
+  </div>
+  <div id="w_status"></div>
+
+  <hr>
+  <textarea id="whiteMembers" rows="4" cols="40"></textarea>
+  <button id="whiteTextButton">追加</button>
+  <button id="whiteSaveButton">保存・更新</button>
+  <button id="whiteClearButton">全削除</button>
+</div>
+
+</div>
+
+</body>
+<script src="js/Sortable.js"></script>
+<script>
+
+
+  const redTeam = nodecg.Replicant("redTeam");
+  const redIndexRep = nodecg.Replicant("redindex", { defaultValue: 0 });
+
+  const whiteTeam = nodecg.Replicant("whiteTeam");
+  const whiteIndexRep = nodecg.Replicant("whiteindex", { defaultValue: 0 });
+
+  const r_status = document.getElementById('r_status');
+  const w_status = document.getElementById('w_status');
+
+  var redMembers = document.getElementById('redMembers');
+  var redTextButton = document.getElementById('redTextButton');
+  var redSaveButton = document.getElementById('redSaveButton');
+  var redClearButton = document.getElementById('redClearButton');
+
+  var whiteMembers = document.getElementById('whiteMembers');
+  var whiteTextButton = document.getElementById('whiteTextButton');
+  var whiteSaveButton = document.getElementById('whiteSaveButton');
+  var whiteClearButton = document.getElementById('whiteClearButton');
+
+
+
+  redTeam.on('change', (newValue, oldValue) => {
+  });
+
+  whiteTeam.on('change', (newValue, oldValue) => {
+  });
+
+  NodeCG.waitForReplicants(redTeam, redIndexRep,whiteTeam, whiteIndexRep).then(() => {
+
+    var redObj = redTeam.value;
+    var r_select = "";
+    var r_len = 0;
+    r_status.innerHTML = "参加者：0　選択：";
+
+    if(redObj != null){
+
+    r_len = redObj.length;
+
+    for (var j = 0; j < redObj.length; j++) {
+
+      var parentNode = document.getElementById("red");
+      var newNode = document.createElement("li");
+      newNode.classList.add("item");
+
+      var lose = false;
+
+      if (redObj[j].classname != '') {
+        var cname = redObj[j].classname;
+        newNode.classList.add(cname.trim());
+        newNode.classList.add("ignore-elements");
+        if ("loser" == cname.trim()) {
+            lose = true;
+          }
+      }
+
+      newNode.setAttribute('id', 'red_item' + redObj[j].id);
+      newNode.innerHTML = '<span class="lispan">' + redObj[j].text + '</span>';
+
+      var input = document.createElement('input');
+
+      var delButton = document.createElement("BUTTON");
+      delButton.textContent = "消";
+      delButton.setAttribute('id', 'red_del' + redObj[j].id);
+      delButton.setAttribute('class', 'del_btn');
+      if (redObj[j].checked == true) {
+        delButton.disabled = "true";
+        //ステータス表示
+        r_select = redObj[j].text;
+      }
+      newNode.appendChild(delButton);
+
+      input.setAttribute('type', 'checkbox'); 
+      input.setAttribute('class', 'red_status_check'); 
+      input.setAttribute('id', 'red_status' + redObj[j].id);
+      if (redObj[j].checked == true) {
+        input.setAttribute('checked', true);
+      } else {
+          if (lose == true) {
+            input.disabled = true;
+          }
+        }
+
+      newNode.appendChild(input);
+      parentNode.appendChild(newNode);
+
+
+      //削除イベント
+      var del = document.getElementById('red_del' + redObj[j].id);
+
+      del.addEventListener('click', (e) => {
+        var result = confirm('削除してよろしいですか？');
+        if (result) {
+          var child = document.getElementById(e.target.id);
+          var parent = child.parentNode;
+          parent.remove();
+          r_status.classList.add("unsaved");
+        } else {
+          return;
+        }
+      })
+
+      //チェックボックス
+      var checks = document.getElementById('red_status' + redObj[j].id);
+
+      checks.addEventListener('change', (e) => {
+
+        var child = document.getElementById(e.target.id);
+        var parent = child.parentNode;
+
+        if (child.checked) {
+          parent.classList.add("inaction");
+          parent.classList.add("ignore-elements");
+          parent.getElementsByClassName('del_btn')[0].setAttribute("disabled", "disabled");
+          var nodes = prevAll(parent);
+
+          if (nodes.length > 0) {
+            for (var m = 0; m < nodes.length; m++) {
+              nodes[m].classList.remove("inaction");
+              nodes[m].classList.add("loser");
+              nodes[m].classList.add("ignore-elements");
+              nodes[m].getElementsByClassName('red_status_check')[0].setAttribute("disabled", "disabled");
+              nodes[m].getElementsByClassName('red_status_check')[0].checked = false;
+              nodes[m].getElementsByClassName('del_btn')[0].removeAttribute("disabled");
+            }
+          }
+
+        } else {
+
+          var boxes = document.getElementsByClassName('red_status_check');
+
+          // チェックボックスの個数を取得する
+          var cnt = boxes.length;
+
+          for (var k = 0; k < cnt; k++) {
+            boxes.item(k).parentNode.classList.remove("inaction");
+            boxes.item(k).parentNode.classList.remove("loser");
+            boxes.item(k).parentNode.classList.remove("ignore-elements");
+            boxes.item(k).parentNode.getElementsByClassName('del_btn')[0].removeAttribute("disabled");
+            boxes.item(k).removeAttribute("disabled");
+            boxes.item(k).checked = false;
+
+            if (boxes.item(k).checked) {
+
+            } else {
+
+            }
+          }
+
+        }
+
+        r_status.classList.add("unsaved");
+
+      })
+
+    }
+
+  }
+//ステータス
+r_status.innerHTML = "参加者：" + r_len + "　選択：" + r_select;
+
+
+//白組
+var whiteObj = whiteTeam.value;
+
+    var w_select = "";
+    var w_len = 0;
+    w_status.innerHTML = "参加者：0　選択：";
+
+if(whiteObj != null){
+  w_len = whiteObj.length;
+for (var j = 0; j < whiteObj.length; j++) {
+
+  var parentNode = document.getElementById("white");
+  var newNode = document.createElement("li");
+  newNode.classList.add("item");
+
+  var lose = false;
+
+  if (whiteObj[j].classname != '') {
+    var cname = whiteObj[j].classname;
+    newNode.classList.add(cname.trim());
+    newNode.classList.add("ignore-elements");
+
+    if ("loser" == cname.trim()) {
+            lose = true;
+          }
+
+  }
+
+  newNode.setAttribute('id', 'white_item' + whiteObj[j].id);
+  newNode.innerHTML = '<span class="lispan">' + whiteObj[j].text + '</span>';
+
+  var input = document.createElement('input');
+
+  var delButton = document.createElement("BUTTON");
+  delButton.textContent = "消";
+  delButton.setAttribute('id', 'white_del' + whiteObj[j].id);
+  delButton.setAttribute('class', 'del_btn');
+  if (whiteObj[j].checked == true) {
+    delButton.disabled = "true";
+    //ステータス表示
+    w_select = whiteObj[j].text;
+
+  }
+  newNode.appendChild(delButton);
+
+  input.setAttribute('type', 'checkbox'); 
+  input.setAttribute('class', 'white_status_check'); 
+  input.setAttribute('id', 'white_status' + whiteObj[j].id);
+  if (whiteObj[j].checked == true) {
+    input.setAttribute('checked', true);
+  } else {
+          if (lose == true) {
+            input.disabled = true;
+          }
+        }
+
+  newNode.appendChild(input);
+  parentNode.appendChild(newNode);
+
+
+  //削除イベント
+  var del = document.getElementById('white_del' + whiteObj[j].id);
+
+  del.addEventListener('click', (e) => {
+    var result = confirm('削除してよろしいですか？');
+    if (result) {
+      var child = document.getElementById(e.target.id);
+      var parent = child.parentNode;
+      parent.remove();
+      w_status.classList.add("unsaved");
+    } else {
+      return;
+    }
+  })
+
+  //チェックボックス
+
+  var checks = document.getElementById('white_status' + whiteObj[j].id);
+  checks.addEventListener('change', (e) => {
+
+    var child = document.getElementById(e.target.id);
+    var parent = child.parentNode;
+
+    if (child.checked) {
+      parent.classList.add("inaction");
+      parent.classList.add("ignore-elements");
+      parent.getElementsByClassName('del_btn')[0].setAttribute("disabled", "disabled");
+      var nodes = prevAll(parent);
+
+      if (nodes.length > 0) {
+        for (var m = 0; m < nodes.length; m++) {
+          nodes[m].classList.remove("inaction");
+          nodes[m].classList.add("loser");
+          nodes[m].classList.add("ignore-elements");
+          nodes[m].getElementsByClassName('white_status_check')[0].setAttribute("disabled", "disabled");
+          nodes[m].getElementsByClassName('white_status_check')[0].checked = false;
+          nodes[m].getElementsByClassName('del_btn')[0].removeAttribute("disabled");
+        }
+      }
+
+    } else {
+
+      var boxes = document.getElementsByClassName('white_status_check');
+
+      // チェックボックスの個数を取得する
+      var cnt = boxes.length;
+
+      for (var k = 0; k < cnt; k++) {
+        boxes.item(k).parentNode.classList.remove("inaction");
+        boxes.item(k).parentNode.classList.remove("loser");
+        boxes.item(k).parentNode.classList.remove("ignore-elements");
+        boxes.item(k).parentNode.getElementsByClassName('del_btn')[0].removeAttribute("disabled");
+        boxes.item(k).removeAttribute("disabled");
+        boxes.item(k).checked = false;
+
+        if (boxes.item(k).checked) {
+
+        } else {
+
+        }
+      }
+
+    }
+
+    w_status.classList.add("unsaved");
+
+  })
+
+}
+
+}
+
+//ステータス
+w_status.innerHTML = "参加者：" + w_len + "　選択：" + w_select;
+
+
+  });
+
+
+  redClearButton.addEventListener('click', function () {
+
+
+    var result = confirm('削除してよろしいですか？');
+    if (result) {
+
+      //親要素取得
+      var parent = document.getElementById('red');
+      //子要素取得
+      var children = parent.getElementsByClassName('item');
+      //子要素数取得
+      var len = children.length;
+
+      for (var i = 0; i < len; i++) {
+        parent.removeChild(children[0]);
+      }
+
+      redTeam.value = [];
+      redIndexRep.value = 0;
+      r_status.innerHTML = "参加者：0　選択：";
+      r_status.classList.remove("unsaved");
+
+    } else {
+      return;
+    }
+
+  });
+
+  redSaveButton.addEventListener('click', function () {
+    var parentNode = document.getElementById("red");
+    var li01 = parentNode.getElementsByTagName('li');
+    var redObj = [];
+
+    var select = "";
+
+    for (var i = 0; i < li01.length; i++) {
+
+      var str = li01[i].getAttribute("id");
+      var uid = str.replace('red_item', '');
+
+      var text = li01[i].getElementsByClassName('lispan')[0].textContent;
+      var classstr = li01[i].className;
+      var classname = "";
+
+      classname = classstr.replace('item', '');
+      classname = classname.replace('ignore-elements', '');
+      classname = classname.trim();
+
+      if( li01[i].getElementsByClassName('red_status_check')[0].checked == true ){
+        select = text;
+      }
+
+      var obj = { id: uid, text: text, classname: classname, checked: li01[i].getElementsByClassName('red_status_check')[0].checked, sort: i };
+      redObj.push(obj);
+
+    }
+    redTeam.value = redObj;
+
+    var len = redObj.length;
+    r_status.innerHTML = "参加者：" + len + "　選択：" +select;
+    r_status.classList.remove("unsaved");
+
+  });
+
+  redTextButton.addEventListener('click', function () {
+
+    var lis = redMembers.value.split(/\n/);
+    var rindex = 0;
+    for (var i = 0; i < lis.length; i++) {
+
+      if (lis[i] != '') {
+
+        rindex = redIndexRep.value;
+        rindex += i + 1;
+        redIndexRep.value = rindex;
+
+        var parentNode = document.getElementById("red");
+
+        var newNode = document.createElement("li");
+        newNode.classList.add("item");
+        newNode.setAttribute('id', 'red_item' + rindex);
+        newNode.innerHTML = '<span class="lispan">' + lis[i] + '</span>';
+
+        var input = document.createElement('input');
+
+        var delButton = document.createElement("BUTTON");
+        delButton.textContent = "消";
+        delButton.setAttribute('id', 'red_del' + rindex);
+        delButton.setAttribute('class', 'del_btn');
+        newNode.appendChild(delButton);
+
+        input.setAttribute('type', 'checkbox'); 
+        input.setAttribute('class', 'red_status_check'); 
+        input.setAttribute('id', 'red_status' + rindex);
+
+        newNode.appendChild(input);
+        parentNode.appendChild(newNode);
+
+        //削除イベント
+        var del = document.getElementById('red_del' + rindex);
+
+        del.addEventListener('click', (e) => {
+          var result = confirm('削除してよろしいですか？');
+          if (result) {
+            var child = document.getElementById(e.target.id);
+            var parent = child.parentNode;
+            parent.remove();
+            r_status.classList.add("unsaved");
+          } else {
+            return;
+          }
+        })
+
+        //チェックボックスイベント
+        var checks = document.getElementById('red_status' + rindex);
+
+        checks.addEventListener('change', (e) => {
+
+          var child = document.getElementById(e.target.id);
+          var parent = child.parentNode;
+
+          if (child.checked) {
+            parent.classList.add("inaction");
+            parent.classList.add("ignore-elements");
+            parent.getElementsByClassName('del_btn')[0].setAttribute("disabled", "disabled");
+            var nodes = prevAll(parent);
+
+            if (nodes.length > 0) {
+              for (var j = 0; j < nodes.length; j++) {
+                nodes[j].classList.remove("inaction");
+                nodes[j].classList.add("loser");
+                nodes[j].classList.add("ignore-elements");
+                nodes[j].getElementsByClassName('red_status_check')[0].setAttribute("disabled", "disabled");
+                nodes[j].getElementsByClassName('red_status_check')[0].checked = false;
+                nodes[j].getElementsByClassName('del_btn')[0].removeAttribute("disabled");
+              }
+
+            }
+
+          } else {
+
+            var boxes = document.getElementsByClassName('red_status_check');
+
+            // チェックボックスの個数を取得する
+            var cnt = boxes.length;
+
+            for (var k = 0; k < cnt; k++) {
+              boxes.item(k).parentNode.classList.remove("inaction");
+              boxes.item(k).parentNode.classList.remove("loser");
+              boxes.item(k).parentNode.classList.remove("ignore-elements");
+              boxes.item(k).parentNode.getElementsByClassName('del_btn')[0].removeAttribute("disabled");
+              boxes.item(k).removeAttribute("disabled");
+              boxes.item(k).checked = false;
+
+              if (boxes.item(k).checked) {
+
+              } else {
+
+              }
+            }
+
+          }
+
+          r_status.classList.add("unsaved");
+
+        })
+
+      }
+
+    }
+    redMembers.value = '';
+    r_status.classList.add("unsaved");
+  });
+
+
+  whiteClearButton.addEventListener('click', function () {
+
+
+var result = confirm('削除してよろしいですか？');
+if (result) {
+
+  //親要素取得
+  var parent = document.getElementById('white');
+  //子要素取得
+  var children = parent.getElementsByClassName('item');
+  //子要素数取得
+  var len = children.length;
+
+  for (var i = 0; i < len; i++) {
+    parent.removeChild(children[0]);
+  }
+
+  whiteTeam.value = [];
+  whiteIndexRep.value = 0;
+  w_status.innerHTML = "参加者：0　選択：";
+  w_status.classList.remove("unsaved");
+} else {
+  return;
+}
+
+});
+
+
+  whiteSaveButton.addEventListener('click', function () {
+    var parentNode = document.getElementById("white");
+    var li01 = parentNode.getElementsByTagName('li');
+    var whiteObj = [];
+    var select = "";
+
+    for (var i = 0; i < li01.length; i++) {
+
+      var str = li01[i].getAttribute("id");
+      var uid = str.replace('white_item', '');
+
+      var text = li01[i].getElementsByClassName('lispan')[0].textContent;
+
+      var classstr = li01[i].className;
+      var classname = "";
+      classname = classstr.replace('item', '');
+      classname = classname.replace('ignore-elements', '');
+      classname = classname.trim();
+
+      if( li01[i].getElementsByClassName('white_status_check')[0].checked == true ){
+        select = text;
+      }
+
+      var obj = { id: uid, text: text, classname: classname, checked: li01[i].getElementsByClassName('white_status_check')[0].checked, sort: i };
+      whiteObj.push(obj);
+
+    }
+    whiteTeam.value = whiteObj;
+
+    var len = whiteObj.length;
+    w_status.innerHTML = "参加者：" + len + "　選択：" +select;
+    w_status.classList.remove("unsaved");
+  });
+
+  whiteTextButton.addEventListener('click', function () {
+
+    var lis = whiteMembers.value.split(/\n/);
+    var rindex = 0;
+    for (var i = 0; i < lis.length; i++) {
+
+      if (lis[i] != '') {
+
+        rindex = whiteIndexRep.value;
+        rindex += i + 1;
+        whiteIndexRep.value = rindex;
+
+        var parentNode = document.getElementById("white");
+
+        var newNode = document.createElement("li");
+        newNode.classList.add("item");
+        newNode.setAttribute('id', 'white_item' + rindex);
+        newNode.innerHTML = '<span class="lispan">' + lis[i] + '</span>';
+
+        var input = document.createElement('input');
+
+        var delButton = document.createElement("BUTTON");
+        delButton.textContent = "消";
+        delButton.setAttribute('id', 'white_del' + rindex);
+        delButton.setAttribute('class', 'del_btn');
+        newNode.appendChild(delButton);
+
+        input.setAttribute('type', 'checkbox'); 
+        input.setAttribute('class', 'white_status_check'); 
+        input.setAttribute('id', 'white_status' + rindex);
+
+        newNode.appendChild(input);
+        parentNode.appendChild(newNode);
+
+        //削除イベント
+        var del = document.getElementById('white_del' + rindex);
+
+        del.addEventListener('click', (e) => {
+          var result = confirm('削除してよろしいですか？');
+          if (result) {
+            var child = document.getElementById(e.target.id);
+            var parent = child.parentNode;
+            parent.remove();
+            w_status.classList.add("unsaved");
+          } else {
+            return;
+          }
+        })
+
+        //チェックボックスイベント
+        var checks = document.getElementById('white_status' + rindex);
+
+        checks.addEventListener('change', (e) => {
+
+          var child = document.getElementById(e.target.id);
+          var parent = child.parentNode;
+
+          if (child.checked) {
+            parent.classList.add("inaction");
+            parent.classList.add("ignore-elements");
+            parent.getElementsByClassName('del_btn')[0].setAttribute("disabled", "disabled");
+            var nodes = prevAll(parent);
+
+            if (nodes.length > 0) {
+              for (var j = 0; j < nodes.length; j++) {
+                nodes[j].classList.remove("inaction");
+                nodes[j].classList.add("loser");
+                nodes[j].classList.add("ignore-elements");
+                nodes[j].getElementsByClassName('white_status_check')[0].setAttribute("disabled", "disabled");
+                nodes[j].getElementsByClassName('white_status_check')[0].checked = false;
+                nodes[j].getElementsByClassName('del_btn')[0].removeAttribute("disabled");
+              }
+
+            }
+
+          } else {
+
+            var boxes = document.getElementsByClassName('white_status_check');
+
+            // チェックボックスの個数を取得する
+            var cnt = boxes.length;
+
+            for (var k = 0; k < cnt; k++) {
+              boxes.item(k).parentNode.classList.remove("inaction");
+              boxes.item(k).parentNode.classList.remove("loser");
+              boxes.item(k).parentNode.classList.remove("ignore-elements");
+              boxes.item(k).parentNode.getElementsByClassName('del_btn')[0].removeAttribute("disabled");
+              boxes.item(k).removeAttribute("disabled");
+              boxes.item(k).checked = false;
+
+              if (boxes.item(k).checked) {
+
+              } else {
+
+              }
+            }
+
+          }
+          w_status.classList.add("unsaved");
+        })
+
+      }
+
+    }
+    whiteMembers.value = '';
+    w_status.classList.add("unsaved");
+  });
+
+
+
+  window.addEventListener("load", function () {
+    var red = document.getElementById('red');
+    var redsortable = Sortable.create(red, {
+      filter: ".ignore-elements",
+      animation: 100,
+      onMove: event => {
+        return !event.related.classList.contains('ignore-elements');
+      },
+      onChange: function (evt) {
+        r_status.classList.add("unsaved");
+      }
+
+    });
+
+    var white = document.getElementById('white');
+    var whitesortable = Sortable.create(white, {
+      filter: ".ignore-elements",
+      animation: 100,
+      onMove: event => {
+        return !event.related.classList.contains('ignore-elements');
+      },
+      onChange: function (evt) {
+        w_status.classList.add("unsaved");
+      }
+
+    });
+
+  });
+
+
+  function nextAll(node, selector) {
+    var list = [];
+    var next = node.nextElementSibling;
+
+    while (next && next.nodeType === 1) {
+      list.push(next);
+      next = next.nextElementSibling;
+    }
+
+    if (selector) {
+      var node = [].slice.call(document.querySelectorAll(selector));
+
+      list = list.filter(function (item) {
+        return node.indexOf(item) !== -1;
+      });
+    }
+
+    return list;
+  }
+
+  function prevAll(node, selector) {
+    var list = [];
+    var prev = node.previousElementSibling;
+
+    while (prev && prev.nodeType === 1) {
+      list.unshift(prev);
+      prev = prev.previousElementSibling;
+    }
+
+    if (selector) {
+      var node = [].slice.call(document.querySelectorAll(selector));
+
+      list = list.filter(function (item) {
+        return node.indexOf(item) !== -1;
+      });
+    }
+
+    return list;
+  }
+
+
+
+</script>
+
+</html>

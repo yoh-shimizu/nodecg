@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>kohaku</title>
+	<link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet'>
+	<style>
+		body {
+			margin: 0px;
+			background-color: rgba(0, 0, 0, 0);
+			color: #FFFFFF;
+			font-family: "ヒラギノ角ゴ ProN W3", "Hiragino Kaku Gothic ProN", "メイリオ", "Meiryo", "verdana", sans-serif;
+		}
+
+		#board {
+			position: absolute;
+			top: 0px;
+			left: 0px;
+			width: 1280px;
+			height: 720px;
+			background-image: url('img/lifepoint.png');
+		}
+
+		#eastteam {
+			position: absolute;
+			padding: 0px;
+			margin-top: 90px;
+		}
+
+		#westteam {
+			position: absolute;
+			padding: 0px;
+			margin-top: 90px;
+			top: 0px;
+			right: 0px;
+		}
+
+		.standby {
+			width: 160px;
+			height: 50px;
+			
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			font-size: 20px;
+			font-weight: bolder;
+			line-height: 0.9;
+      		color: #fff;
+      		text-shadow: 1px 1px 1px rgba(0, 0, 0, .3);
+		}
+
+		.inaction {
+			width: 160px;
+			height: 50px;
+
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			color: #feffbe;
+			font-size: 20px;
+			font-weight: bolder;
+			line-height: 0.9;
+		}
+
+		.loser {
+			width: 160px;
+			height: 50px;
+
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			color: #c2c2c2;
+			font-size: 20px;
+			font-weight: bolder;
+			line-height: 0.9;
+		}
+
+		.namebox {
+			margin-top: 540px;
+			display: flex;
+			justify-content: center;
+			flex-wrap: wrap;
+		}
+
+		.logobox {
+			width: 300px;
+			height: 180px;
+			margin: 0px;
+		}
+
+		.box {
+			width: 300px;
+			height: 180px;
+			margin: 0px;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			color: #fff;
+			/*  
+			下部のプレイヤー名の色を黒から白に変えたい場合、上の
+			color: #000000;
+			を
+			color: #ffffff;　
+			に変更してください
+			*/
+			font-size: 32px;
+			font-weight: bolder;
+		}
+
+.pointplace{
+	width: 50px;
+
+	display: inline-block;
+	text-align: right;
+	color: #fffb00;
+			font-size: 20px;
+			font-weight: bolder;
+			line-height: 0.9;
+
+}
+.nameplace{
+	width: 110px;
+	margin:5px;
+	display: inline-block;
+}
+
+		.pointbox{
+			width: 190px;
+			height: 180px;
+			margin: 0px;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			color: #ff0000;
+			font-size: 90px;
+			font-family: 'Oswald', sans-serif;
+		}
+
+	</style>
+</head>
+<body>
+	<div id="board">
+		<ul id="eastteam">
+		</ul>
+		<ul id="westteam">
+		</ul>
+		<div class="nameboard">
+			<div class="namebox">
+				<div id="eastpoint" class="pointbox"></div>
+				<div id="eastplayer" class="box"></div>
+				<div class="logobox"></div>
+				<div id="westplayer" class="box"></div>
+				<div id="westpoint" class="pointbox"></div>
+			</div>
+		</div>
+	</div>
+</body>
+<script>
+
+	const symbol = '★';
+	const eastTeam = nodecg.Replicant("eastTeam");
+	const eastplayer = document.getElementById('eastplayer');
+	const eastpoint = document.getElementById('eastpoint');
+
+	const westTeam = nodecg.Replicant("westTeam");
+	const westplayer = document.getElementById('westplayer');
+	const westpoint = document.getElementById('westpoint');
+
+	eastTeam.on("change", newValue => {
+
+		document.querySelector('#eastteam').innerHTML = '';
+		eastplayer.innerHTML = '';
+		eastpoint.innerHTML = '';
+
+		var obj = newValue;
+		var playername = "";
+		var total = 0;
+
+		if(obj != null){
+		for (var i = 0; i < obj.length; i++) {
+
+			var parentNode = document.getElementById("eastteam");
+
+			var point = Number(obj[i].point);
+
+			var newNode = document.createElement("li");
+			newNode.classList.add("standby");
+
+			var pointview = "";
+			if(point > 0){
+				for (var j = 0; j < point; j++) {
+					pointview += symbol;
+				}
+			}
+			newNode.innerHTML = '<span class="pointplace">' + pointview + '</span>';
+
+			var state = "";
+
+			if (obj[i].classname != '') {
+				var cname = obj[i].classname;
+				newNode.classList.add(cname.trim());
+
+				if (cname.trim() == 'inaction') {
+					playername = obj[i].text;
+				}
+
+			}
+
+			newNode.innerHTML += '<span class="nameplace">' + obj[i].text + '</span>';
+
+			parentNode.appendChild(newNode);
+
+			eastplayer.textContent = playername;
+
+			
+			total += point;
+			
+		}
+		eastpoint.textContent = total;
+		}
+
+	});
+
+
+	westTeam.on("change", newValue => {
+
+		document.querySelector('#westteam').innerHTML = '';
+		westplayer.innerHTML = '';
+		westpoint.innerHTML = '';
+		var obj = newValue;
+		var playername = "";
+		var total = 0;
+
+		if(obj != null){
+		for (var i = 0; i < obj.length; i++) {
+
+			var parentNode = document.getElementById("westteam");
+
+			var point = Number(obj[i].point);
+
+			var newNode = document.createElement("li");
+			newNode.classList.add("standby");
+
+			var pointview = "";
+			if(point > 0){
+				for (var j = 0; j < point; j++) {
+					pointview += symbol;
+				}
+			}
+			newNode.innerHTML = '<span class="pointplace">' + pointview + '</span>';
+
+			var state = "";
+
+			if (obj[i].classname != '') {
+				var cname = obj[i].classname;
+				newNode.classList.add(cname.trim());
+
+				if (cname.trim() == 'inaction') {
+					playername = obj[i].text;
+				}
+
+			}
+
+			newNode.innerHTML += '<span class="nameplace">' + obj[i].text + '</span>';
+			
+			parentNode.appendChild(newNode);
+
+			westplayer.textContent = playername;
+
+			total += point;
+
+		}
+		westpoint.textContent = total;
+		}
+
+
+	});
+
+
+
+
+</script>
+
+
+
+
+</html>

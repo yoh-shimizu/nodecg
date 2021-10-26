@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>3on</title>
+	<link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet'>
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@800&display=swap" rel="stylesheet">
+	<style>
+
+		body {
+			margin: 0px;
+			background-color: rgba(0, 0, 0, 0);
+			color: #FFFFFF;
+			font-family: "ヒラギノ角ゴ ProN W3", "Hiragino Kaku Gothic ProN", "メイリオ", "Meiryo", "verdana", sans-serif;
+		}
+
+		#board {
+			position: absolute;
+			top: 0px;
+			left: 0px;
+			width: 1280px;
+			height: 720px;
+			background-image: url('img/3on.png');
+			/* background-color: #000; */
+		}
+
+		#eastteam {
+			position: absolute;
+			padding: 0px;
+			bottom: 0px;
+			margin: 0px;
+			margin-left: 140px;
+		}
+
+		
+
+
+		#westteam {
+			position: absolute;
+			padding: 0px;
+			bottom: 0px;
+			right: 140px;
+			margin: 0px;
+		}
+
+		#westpoint{
+			position: absolute;
+			bottom: 0px;
+			right: 0px;
+			margin: 0px;
+		}
+
+
+
+
+
+		.standby {
+			width: 400px;
+			height: 30px;
+			border-bottom: 3px solid#999;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			font-size: 22px;
+			font-weight: bolder;
+			line-height: 0.9;
+			color: #fff;
+      		text-shadow: 1px 1px 1px rgba(0, 0, 0, .3);
+
+		}
+
+		.inaction {
+			width: 400px;
+			height: 30px;
+			border-bottom: 3px solid #999;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			color: #feffbe;
+			font-size: 22px;
+			font-weight: bolder;
+			line-height: 0.9;
+			background-color: coral;
+		}
+
+		.loser {
+			width: 400px;
+			height: 30px;
+			border-bottom: 3px solid#999;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			color: #999;
+			font-size: 22px;
+			font-weight: bolder;
+			line-height: 0.9;
+			
+
+		}
+
+		.namebox {
+			margin-top: 0px;
+			display: flex;
+			justify-content: center;
+			flex-wrap: wrap;
+		}
+
+
+
+
+		.logobox {
+			width: 100px;
+			height: 50px;
+			margin: 0px;
+		}
+
+		.box {
+			width: 500px;
+			height: 40px;
+			margin: 0px;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			color: #fff;
+			/*  
+			下部のプレイヤー名の色を黒から白に変えたい場合、上の
+			color: #000000;
+			を
+			color: #ffffff;　
+			に変更してください
+			*/
+			font-family: 'M PLUS Rounded 1c', sans-serif;
+			font-size: 26px;
+			font-weight: bolder;
+			/* background-color: #666; */
+		}
+
+.pointplace{
+
+	width: 50px;
+
+	display: inline-block;
+	text-align: right;
+	color: #fffb00;
+			font-size: 20px;
+			font-weight: bolder;
+			line-height: 0.9;
+
+}
+
+
+
+
+/* #westplayer{
+	display: none;
+} */
+
+/* #eastplayer{
+	display: none;
+} */
+
+
+
+.pointplace_right{
+
+	width: 50px;
+
+	display: inline-block;
+	text-align: left;
+	color: #fffb00;
+			font-size: 20px;
+			font-weight: bolder;
+			line-height: 0.9;
+
+}
+
+.nameplace{
+	width: 400px;
+	display: flex;
+			justify-content: center;
+}
+
+
+
+.teampoint{
+	
+	width: 140px;
+			height: 100px;
+			margin: 0px;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			color: #ff0000;
+			font-size: 50px;
+			font-family: 'Oswald', sans-serif;
+}
+
+	</style>
+</head>
+<body>
+	<div id="board">
+
+		<div class="nameboard">
+			<div class="namebox">
+
+				<div id="eastname" class="box"></div>
+
+				<div class="logobox"></div>
+				<div id="westname" class="box"></div>
+
+
+			</div>
+		</div>
+		
+		
+		<div class="teampoint"></div>
+		<ul id="eastteam">
+		</ul>
+		<div class="teampoint"></div>
+		<ul id="westteam">
+		</ul>
+
+	</div>
+</body>
+<script>
+
+	const symbol = '★';
+	const eastTeam = nodecg.Replicant("eastTeam");
+	const eastName = nodecg.Replicant("eastName");
+//	const eastplayer = document.getElementById('eastplayer');
+
+
+	const westTeam = nodecg.Replicant("westTeam");
+	const westName = nodecg.Replicant("westName");
+//	const westplayer = document.getElementById('westplayer');
+
+
+	eastTeam.on("change", newValue => {
+
+		document.querySelector('#eastteam').innerHTML = '';
+		//eastplayer.innerHTML = '';
+
+
+		var obj = newValue;
+		var playername = "";
+		var total = 0;
+
+		if(obj != null){
+		for (var i = 0; i < obj.length; i++) {
+
+			var parentNode = document.getElementById("eastteam");
+
+			var point = Number(obj[i].point);
+
+			var newNode = document.createElement("li");
+			newNode.classList.add("standby");
+
+			var pointview = "";
+			if(point > 0){
+				for (var j = 0; j < point; j++) {
+					pointview += symbol;
+				}
+			}
+			newNode.innerHTML = '';
+
+			var state = "";
+
+			if (obj[i].classname != '') {
+				var cname = obj[i].classname;
+				newNode.classList.add(cname.trim());
+
+				if (cname.trim() == 'inaction') {
+					playername = obj[i].text;
+				}
+
+			}
+
+			newNode.innerHTML += '<span class="nameplace">' + obj[i].text + '</span>';
+			newNode.innerHTML += '<span class="pointplace_right">' + pointview + '</span>';
+			parentNode.appendChild(newNode);
+
+			//eastplayer.textContent = eastName.value;
+			
+			total += point;
+			
+		}
+
+		}
+
+	});
+
+	eastName.on("change", newValue => {
+	
+		document.getElementById("eastname").textContent = newValue;
+
+	});
+
+	westTeam.on("change", newValue => {
+
+		document.querySelector('#westteam').innerHTML = '';
+		//westplayer.innerHTML = '';
+
+		var obj = newValue;
+		var playername = "";
+		var total = 0;
+
+		if(obj != null){
+		for (var i = 0; i < obj.length; i++) {
+
+			var parentNode = document.getElementById("westteam");
+
+			var point = Number(obj[i].point);
+
+			var newNode = document.createElement("li");
+			newNode.classList.add("standby");
+
+			var pointview = "";
+			if(point > 0){
+				for (var j = 0; j < point; j++) {
+					pointview += symbol;
+				}
+			}
+			newNode.innerHTML = '<span class="pointplace">' + pointview + '</span>';
+
+			var state = "";
+
+			if (obj[i].classname != '') {
+				var cname = obj[i].classname;
+				newNode.classList.add(cname.trim());
+
+				if (cname.trim() == 'inaction') {
+					playername = obj[i].text;
+				}
+
+			}
+
+			newNode.innerHTML += '<span class="nameplace">' + obj[i].text + '</span>';
+			
+			parentNode.appendChild(newNode);
+
+			//westplayer.textContent = westName.value;
+
+			total += point;
+
+		}
+
+		}
+
+
+	});
+
+	westName.on("change", newValue => {
+		
+		document.getElementById("westname").textContent = newValue;
+
+});
+
+
+</script>
+
+
+
+
+</html>

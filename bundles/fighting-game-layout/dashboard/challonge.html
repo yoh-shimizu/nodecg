@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+  <style>
+    * {
+        font-size: 20px;
+  }
+    .team, .member {
+        width: 300px;
+    }
+    .content {
+        margin-bottom: 10px
+    }
+    .countview {
+        width: 50px;
+    }
+  </style>
+</head>
+<body>
+    <div id="folder">
+    <div class="content">
+        <div id="alert"></div>
+            <label>呼び出し</label>
+            <input id="t_url" class="team" type="text" placeholder="url"><button id="t_submit">呼出・更新</button>           
+            <button id="challonge_link">challonge管理ページへ</button>
+        </div>
+    <div id="folder">
+    <div>マッチ選択</div>
+    <div class="content">
+        <form>
+            <select name="example" id="match_select">
+                <option value="" label="▼選択してください" selected></option>
+            </select>
+        <button id="send_match">セット</button>
+        </form>
+    </div>
+  </div>
+  <hr>
+    <div id="folder">
+    <div class="content">
+        <div>現在のマッチ</div>
+    <div id="now_match">マッチ選択されていません。</div>
+<input type="hidden" value="" id="p1_name">
+<input type="hidden" value="" id="p2_name">
+
+<hr>
+    <button id="allclear">全てクリア</button>
+</div>
+</div>
+
+
+
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+
+
+    const matches = nodecg.Replicant("matches");
+    const matchId = nodecg.Replicant("match_id");
+
+    const challonge_p1 = nodecg.Replicant("challonge_p1");
+    const challonge_p2 = nodecg.Replicant("challonge_p2");
+
+    const tournamentUrlRep = nodecg.Replicant("tournament_url", { defaultValue: "" });
+
+
+    if (nodecg.bundleConfig.challonge) {
+
+        $("#alert").text("");
+
+        NodeCG.waitForReplicants(tournamentUrlRep, matches, matchId).then(() => {
+
+            if (tournamentUrlRep.value != "") {
+                $("#t_url").val(tournamentUrlRep.value);
+                get_match();
+            } else {
+                return false;
+            }
+
+        });
+
+
+        $("#t_submit").on('click', function () {
+
+            tournamentUrlRep.value = $("#t_url").val();
+
+            if (tournamentUrlRep.value != "") {
+                get_match();
+            } else {
+                alert("URLを入力して下さい");
+                return false;
+            }
+
+        });
+
+        $('#challonge_link').on('click', function () {
+            if (tournamentUrlRep.value != null) {
+                var url = "https://challonge.com/" + tournamentUrlRep.value;
+                window.open(url);
+            } else {
+                var url = "https://challonge.com/";
+                window.open(url);
+            }
+        });
+
+        $('#allclear').on('click', function () {
+            $("#t_url").val("");
+            tournamentUrlRep.value = "";
+            matches.value = [];
+            matchId.value = "";
+            challonge_p1.value = "";
+            challonge_p2.value = "";
+            $('#match_select > option').remove();
+
+
+        });
+
+
+        function get_match() {
+            $("#alert").text("");
+            challonge_p1.value = "";
+            challonge_p2.value = "";
+            $('#now_match').text("マッチ選択されていません");
+            $.ajax({
+                url: nodecg.bundleConfig.challonge.url + '/' + tournamentUrlRep.value + '/' + nodecg.bundleConfig.challonge.matches + nodecg.bundleConfig.challonge.ext, // 通信先のURL
+                type: "GET",
+                data: { "api_key": nodecg.bundleConfig.challonge.api_key },
+                dataType: "json",
+            }).done(function (data1, textStatus, jqXHR) {
+                var match_obj = data1;
+
+                matches.value = match_obj;
+
+
+                match_list();
+
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+                $("#alert").text("通信エラー、設定を確認してください");
+
+            }).always(function () {
+
+
+            });
+
+
+        }
+
+
+        function match_list() {
+
+            challonge_p1.value = "";
+            challonge_p2.value = "";
+            $('#now_match').text("マッチ選択されていません");
+
+            $.ajax({
+                url: nodecg.bundleConfig.challonge.url + '/' + tournamentUrlRep.value + '/' + nodecg.bundleConfig.challonge.participants + nodecg.bundleConfig.challonge.ext, // 通信先のURL
+                type: "GET",
+                data: { "api_key": nodecg.bundleConfig.challonge.api_key },
+                dataType: "json",
+            }).done(function (data1, textStatus, jqXHR) {
+                var member_obj = data1;
+
+                var name_obj = [];
+                for (var i = 0; i < member_obj.length; i++) {
+                    name_obj[member_obj[i].participant.id] = member_obj[i].participant.name;
+                }
+
+                var match_obj = matches.value;
+
+                $('#match_select > option').remove();
+                $('#match_select').append($('<option>').html("▼選択してください").val(""));
+                for (var i = 0; i < match_obj.length; i++) {
+                    var p1_id = match_obj[i].match.player1_id;
+                    var p2_id = match_obj[i].match.player2_id;
+
+                    var p1_name = name_obj[p1_id];
+                    var p2_name = name_obj[p2_id];
+                    var label = "";
+
+                    if (p1_name != undefined && p2_name != undefined) {
+                        if (match_obj[i].match.winner_id == null && match_obj[i].match.scores_csv == "") {
+                            label = p1_name + ' VS ' + p2_name;
+                            $('#match_select').append($('<option>').html(label).val(match_obj[i].match.id));
+
+                            if (matchId.value == match_obj[i].match.id) {
+                                $("select").val(matchId.value);
+                            }
+
+                        }
+                    }
+
+                }
+
+
+
+                $('#now_match').text();
+                challonge_p1.value = "";
+                challonge_p2.value = "";
+
+                $('#send_match').on('click', function () {
+                    var selected = $('#match_select option:selected').text();
+                    var match_id = $('#match_select').val();
+                    if (match_id != 0) {
+                        $('#now_match').text(selected);
+                        matchId.value = match_id;
+                    }
+
+                    match_show(match_id, name_obj);
+                    return false;
+                });
+
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+                $("#alert").text("通信エラー、設定を確認してください");
+            }).always(function () {
+
+            });
+
+        }
+
+        function match_show(match_id, name_obj) {
+
+            if (match_id != 0) {
+
+                $.ajax({
+                    url: nodecg.bundleConfig.challonge.url + '/' + tournamentUrlRep.value + '/' + nodecg.bundleConfig.challonge.matches + '/' + match_id + nodecg.bundleConfig.challonge.ext, // 通信先のURL
+                    type: "GET",
+                    data: { "api_key": nodecg.bundleConfig.challonge.api_key },
+                    dataType: "json",
+                }).done(function (data1, textStatus, jqXHR) {
+                    var match_obj = data1;
+
+                    challonge_p1.value = name_obj[match_obj.match.player1_id];
+                    challonge_p2.value = name_obj[match_obj.match.player2_id];
+
+
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    $("#alert").text("通信エラー、設定を確認してください");
+                }).always(function () {
+
+                });
+
+            } else {
+                return false;
+            }
+
+        }
+
+
+    } else {
+
+        $("#alert").text("設定ファイルが未定義です");
+        $('#challonge_link').on('click', function () {
+            var url = "https://challonge.com/";
+            window.open(url);
+        });
+
+    }
+
+
+</script>
+</html>

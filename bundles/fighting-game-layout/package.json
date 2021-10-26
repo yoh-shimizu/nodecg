@@ -1,0 +1,72 @@
+{
+  "name": "fighting-game-layout",
+  "version": "1.4.0",
+  "description": "",
+  "main": "index.js",
+  "author": "",
+  "license": "MIT",
+	"dependencies": {
+    "googleapis": "^47.0.0",
+    "lodash": "^4.17.15"
+  },
+  "nodecg": {
+      "compatibleRange": "^1.0.0",
+      "dashboardPanels": [
+        {
+          "width": "4",
+          "name": "versus",
+          "title": "対戦スコアボード",
+          "file": "versus.html"
+        },
+        {
+          "width": "8",
+          "name": "kohaku",
+          "title": "紅白メンバー表",
+          "file": "kohaku.html"
+        },
+        {
+          "width": "8",
+          "name": "lifepoint",
+          "title": "ライフポイント対抗戦|早稲田式2on",
+          "file": "lifepoint.html"
+        },
+        {
+          "width": "4",
+          "name": "challonge",
+          "title": "challonge連携",
+          "file": "challonge.html"
+        }
+      ],
+      "graphics": [
+        {
+          "file": "kohaku.html",
+          "width": 1280,
+          "height": 720
+        },
+        {
+          "file": "lifepoint.html",
+          "width": 1280,
+          "height": 720
+        },
+        { "file": "3on.html",
+          "width": 1280,
+          "height": 720
+        },
+        {
+          "file": "score_long.html",
+          "width": 1280,
+          "height": 720
+        },
+        {
+          "file": "score_short.html",
+          "width": 1280,
+          "height": 720
+        },
+        {
+          "file": "waseda.html",
+          "width": 1280,
+          "height": 720
+        }
+      ]
+    }
+  }

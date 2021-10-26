@@ -1,0 +1,15 @@
+{
+    "challonge": {
+        "api_key": "",
+        "url": "https://api.challonge.com/v1/tournaments",
+        "tournaments": "tournaments",
+        "participants": "participants",
+        "matches": "matches",
+        "ext": ".json"
+    },
+    "googleApi": {
+        "spreadsheetId": "",
+        "apikey": ""
+    }
+    
+}
