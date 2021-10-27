@@ -46,7 +46,6 @@
     
     <button id="submitButton">名前反映</button><button id="clearButton">クリア</button>
     <button id="loadButton">紅白戦名前呼出</button>
-    <button id="challongeButton">challonge名前呼出</button>
 
 </div>
 
@@ -67,7 +66,6 @@
     const submitButton = document.getElementById("submitButton");
     const clearButton = document.getElementById("clearButton");
     const loadButton = document.getElementById("loadButton");
-    const challongeButton = document.getElementById("challongeButton");
 
     const p1incEl = document.getElementById('p1inc')
     const p1decEl = document.getElementById('p1dec')
@@ -83,9 +81,6 @@
 
     const redTeam = nodecg.Replicant("redTeam");
     const whiteTeam = nodecg.Replicant("whiteTeam");
-
-    const challonge_p1 = nodecg.Replicant("challonge_p1");
-    const challonge_p2 = nodecg.Replicant("challonge_p2");
 
 
     redTeam.on('change', (newValue, oldValue) => {
@@ -165,17 +160,6 @@
 
 
         })
-
-        challongeButton.onclick = () => {
-            player1.value = challonge_p1.value;
-            p1Rep.value = player1.value;
-            player2.value = challonge_p2.value;
-            p2Rep.value = player2.value;
-            p1countView.value = 0;
-            p1countReplicant.value = 0;
-            p2countView.value = 0;
-            p2countReplicant.value = 0;
-        }
 
         submitButton.onclick = () => {
         titleRep.value = titleform.value;
