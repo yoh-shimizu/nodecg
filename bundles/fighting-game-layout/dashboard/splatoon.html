@@ -27,7 +27,7 @@
     <div id="folder">
         <div class="content">
             <label>タイトル</label>
-            <input id="titleform" class="team" type="text">
+            <input id="titleform" class="team" type="text" placeholder="BO5">
         </div>
 
         <hr>
@@ -118,6 +118,9 @@
     const titleform = document.getElementById("titleform");
     const titleRep = nodecg.Replicant("title", {defaultValue: ""});
 
+    const team1 = document.getElementById("team1");
+    const team2 = document.getElementById("team2");
+
     const player1 = document.getElementById("player1");
     const player2 = document.getElementById("player2");
     const player3 = document.getElementById("player3");
@@ -126,6 +129,9 @@
     const player6 = document.getElementById("player6");
     const player7 = document.getElementById("player7");
     const player8 = document.getElementById("player8");
+
+    const t1Rep = nodecg.Replicant("t1name", {defaultValue: ""});
+    const t2Rep = nodecg.Replicant("t2name", {defaultValue: ""});
 
     const p1Rep = nodecg.Replicant("p1name", {defaultValue: ""});
     const p2Rep = nodecg.Replicant("p2name", {defaultValue: ""});
@@ -166,6 +172,14 @@
         
         nodecg.readReplicant('title', value => {
         titleform.value = value;
+        });
+
+        nodecg.readReplicant('t1name', value => {
+            team1.value = value;
+        });
+
+        nodecg.readReplicant('t2name', value => {
+            team2.value = value;
         });
 
         nodecg.readReplicant('p1name', value => {
@@ -260,14 +274,30 @@
 
         submitButton.onclick = () => {
         titleRep.value = titleform.value;
+        t1Rep.value = team1.value;
+        t2Rep.value = team2.value;
         p1Rep.value = player1.value;
         p2Rep.value = player2.value;
+        p3Rep.value = player3.value;
+        p4Rep.value = player4.value;
+        p5Rep.value = player5.value;
+        p6Rep.value = player6.value;
+        p7Rep.value = player7.value;
+        p8Rep.value = player8.value;
     }
 
     clearButton.onclick = () => {
         titleRep.value = titleform.value = "";
+        t1Rep.value = team1.value = "";
+        t2Rep.value = team2.value = "";
         p1Rep.value = player1.value = "";
         p2Rep.value = player2.value = "";
+        p3Rep.value = player3.value = "";
+        p4Rep.value = player4.value = "";
+        p5Rep.value = player5.value = "";
+        p6Rep.value = player6.value = "";
+        p7Rep.value = player7.value = "";
+        p8Rep.value = player8.value = "";
         p1countView.value = p1countReplicant.value = 0;
         p2countView.value = p2countReplicant.value = 0;
     }

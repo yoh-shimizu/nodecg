@@ -33,10 +33,16 @@
       round.innerText = newValue;
     });
 
-    const player_one = document.getElementById("team1_name");
-    const p1nameView = nodecg.Replicant("t1name");
-    p1nameView.on("change", newValue => {
-      player_one.innerText = newValue;
+    const team1 = document.getElementById("team1_name");
+    const t1nameView = nodecg.Replicant("t1name");
+    t1nameView.on("change", newValue => {
+      team1.innerText = newValue;
+    });
+
+    const team2 = document.getElementById("team2_name");
+    const t2nameView = nodecg.Replicant("t2name");
+    t2nameView.on("change", newValue => {
+      team2.innerText = newValue;
     });
 
     const player_one = document.getElementById("player_one");
