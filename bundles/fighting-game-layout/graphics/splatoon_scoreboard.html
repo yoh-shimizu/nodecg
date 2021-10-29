@@ -27,11 +27,17 @@
     
   <script>
 
-    // const round = document.getElementById("round");
-    // const roundView = nodecg.Replicant("round_name");
-    // roundView.on("change", newValue => {
-    //   round.innerText = newValue;
-    // });
+    const round = document.getElementById("round");
+    const roundView = nodecg.Replicant("title");
+    roundView.on("change", newValue => {
+      round.innerText = newValue;
+    });
+
+    const player_one = document.getElementById("team1_name");
+    const p1nameView = nodecg.Replicant("t1name");
+    p1nameView.on("change", newValue => {
+      player_one.innerText = newValue;
+    });
 
     const player_one = document.getElementById("player_one");
     const p1nameView = nodecg.Replicant("p1name");

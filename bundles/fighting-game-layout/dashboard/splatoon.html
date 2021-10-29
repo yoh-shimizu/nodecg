@@ -15,6 +15,12 @@
     .countview {
         width: 50px;
     }
+    .example{
+    display: flex;
+    }
+    .example>div{
+        width: 50%;
+    }
   </style>
 </head>
 <body>
@@ -24,23 +30,78 @@
             <input id="titleform" class="team" type="text">
         </div>
 
-    <div class="content">
-            <label>P1</label>
-            <input id="player1" class="team" type="text" placeholder="プレイヤー1">
+        <hr>
+        <div class="example">
+            <div>
+                <label>TEAM1</label>
+                <br>
+                <input id="team1" class="team" type="text" placeholder="アルファチーム">
 
-            <input id="p1count" type="text" class="countview" readonly>
-            <button id="p1inc">+1</button>
-            <button id="p1dec">-1</button>
+                <input id="p1count" type="text" class="countview" readonly>
+                <button id="p1inc">+1</button>
+                <button id="p1dec">-1</button>
+                <br>
+            </div>
+            <div>
+                <label>TEAM2</label>
+                <br>
+                <input id="team2" class="team" type="text" placeholder="ブラボーチーム">
 
+                <input id="p2count" type="text" class="countview" readonly>
+                <button id="p2inc">+1</button>
+                <button id="p2dec">-1</button>
+                <br>
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="example">
+            <div>
+                <label>TEAM1_P1</label>
+                <br>
+                <input id="player1" class="team" type="text" placeholder="プレイヤー1">
+                <br>
+
+                <label>TEAM1_P2</label>
+                <br>
+                <input id="player2" class="team" type="text" placeholder="プレイヤー2">
+                <br>
+
+                <label>TEAM1_P3</label>
+                <br>
+                <input id="player3" class="team" type="text" placeholder="プレイヤー3">
+                <br>
+
+                <label>TEAM1_P4</label>
+                <br>
+                <input id="player4" class="team" type="text" placeholder="プレイヤー4">
+                <br>
+            </div>
+
+            <div>
+                <label>TEAM2_P1</label>
+                <br>
+                <input id="player5" class="team" type="text" placeholder="プレイヤー5">
+                <br>
+
+                <label>TEAM2_P2</label>
+                <br>
+                <input id="player6" class="team" type="text" placeholder="プレイヤー6">
+                <br>
+
+                <label>TEAM2_P3</label>
+                <br>
+                <input id="player7" class="team" type="text" placeholder="プレイヤー7">
+                <br>
+
+                <label>TEAM2_P4</label>
+                <br>
+                <input id="player8" class="team" type="text" placeholder="プレイヤー8">
+                <br>
+            </div>
+        </div>
     </div>
-    <div class="content">
-            <label>P2</label>
-            <input id="player2" class="team" type="text" placeholder="プレイヤー2">
-            <input id="p2count" type="text" class="countview" readonly>
-            <button id="p2inc">+1</button>
-            <button id="p2dec">-1</button>
-    </div>
-  </div>
     <div id="folder">
     <div class="content">
     
@@ -59,9 +120,21 @@
 
     const player1 = document.getElementById("player1");
     const player2 = document.getElementById("player2");
+    const player3 = document.getElementById("player3");
+    const player4 = document.getElementById("player4");
+    const player5 = document.getElementById("player5");
+    const player6 = document.getElementById("player6");
+    const player7 = document.getElementById("player7");
+    const player8 = document.getElementById("player8");
 
     const p1Rep = nodecg.Replicant("p1name", {defaultValue: ""});
     const p2Rep = nodecg.Replicant("p2name", {defaultValue: ""});
+    const p3Rep = nodecg.Replicant("p3name", {defaultValue: ""});
+    const p4Rep = nodecg.Replicant("p4name", {defaultValue: ""});
+    const p5Rep = nodecg.Replicant("p5name", {defaultValue: ""});
+    const p6Rep = nodecg.Replicant("p6name", {defaultValue: ""});
+    const p7Rep = nodecg.Replicant("p7name", {defaultValue: ""});
+    const p8Rep = nodecg.Replicant("p8name", {defaultValue: ""});
 
     const submitButton = document.getElementById("submitButton");
     const clearButton = document.getElementById("clearButton");
@@ -101,6 +174,30 @@
 
         nodecg.readReplicant('p2name', value => {
             player2.value = value;
+        });
+
+        nodecg.readReplicant('p3name', value => {
+            player3.value = value;
+        });
+
+        nodecg.readReplicant('p4name', value => {
+            player4.value = value;
+        });
+
+        nodecg.readReplicant('p5name', value => {
+            player5.value = value;
+        });
+
+        nodecg.readReplicant('p6name', value => {
+            player6.value = value;
+        });
+
+        nodecg.readReplicant('p7name', value => {
+            player7.value = value;
+        });
+
+        nodecg.readReplicant('p8name', value => {
+            player8.value = value;
         });
 
      nodecg.readReplicant('count1', value => {

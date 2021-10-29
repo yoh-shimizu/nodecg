@@ -13,10 +13,10 @@
       "compatibleRange": "^1.0.0",
       "dashboardPanels": [
         {
-          "width": "4",
-          "name": "versus",
-          "title": "対戦スコアボード",
-          "file": "versus.html"
+          "width": "8",
+          "name": "splatoon",
+          "title": "スプラトゥーンスコアボード",
+          "file": "splatoon.html"
         },
         {
           "width": "8",
@@ -29,12 +29,6 @@
           "name": "lifepoint",
           "title": "ライフポイント対抗戦|早稲田式2on",
           "file": "lifepoint.html"
-        },
-        {
-          "width": "8",
-          "name": "splatoon",
-          "title": "スプラトゥーンスコアボード",
-          "file": "splatoon.html"
         }
       ],
       "graphics": [
