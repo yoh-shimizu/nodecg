@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+  <style>
+    * {
+        font-size: 20px;
+  }
+    .team, .member {
+        width: 300px;
+    }
+    .content {
+        margin-bottom: 10px
+    }
+    .countview {
+        width: 50px;
+    }
+  </style>
+</head>
+<body>
+    <div id="folder">
+        <div class="content">
+            <label>タイトル</label>
+            <input id="titleform" class="team" type="text">
+        </div>
+
+    <div class="content">
+            <label>P1</label>
+            <input id="player1" class="team" type="text" placeholder="プレイヤー1">
+
+            <input id="p1count" type="text" class="countview" readonly>
+            <button id="p1inc">+1</button>
+            <button id="p1dec">-1</button>
+
+    </div>
+    <div class="content">
+            <label>P2</label>
+            <input id="player2" class="team" type="text" placeholder="プレイヤー2">
+            <input id="p2count" type="text" class="countview" readonly>
+            <button id="p2inc">+1</button>
+            <button id="p2dec">-1</button>
+    </div>
+  </div>
+    <div id="folder">
+    <div class="content">
+    
+    <button id="submitButton">名前反映</button><button id="clearButton">クリア</button>
+    <button id="loadButton">紅白戦名前呼出</button>
+
+</div>
+
+</div>
+
+</body>
+<script>
+    
+    const titleform = document.getElementById("titleform");
+    const titleRep = nodecg.Replicant("title", {defaultValue: ""});
+
+    const player1 = document.getElementById("player1");
+    const player2 = document.getElementById("player2");
+
+    const p1Rep = nodecg.Replicant("p1name", {defaultValue: ""});
+    const p2Rep = nodecg.Replicant("p2name", {defaultValue: ""});
+
+    const submitButton = document.getElementById("submitButton");
+    const clearButton = document.getElementById("clearButton");
+    const loadButton = document.getElementById("loadButton");
+
+    const p1incEl = document.getElementById('p1inc')
+    const p1decEl = document.getElementById('p1dec')
+
+    const p1countView = document.getElementById('p1count')
+    const p1countReplicant = nodecg.Replicant('count1', {defaultValue: 0})
+
+    const p2incEl = document.getElementById('p2inc')
+    const p2decEl = document.getElementById('p2dec')
+
+    const p2countView = document.getElementById('p2count')
+    const p2countReplicant = nodecg.Replicant('count2', {defaultValue: 0})
+
+    const redTeam = nodecg.Replicant("redTeam");
+    const whiteTeam = nodecg.Replicant("whiteTeam");
+
+
+    redTeam.on('change', (newValue, oldValue) => {
+  });
+
+  whiteTeam.on('change', (newValue, oldValue) => {
+  });
+
+        NodeCG.waitForReplicants(titleRep,p1Rep,p2Rep,p1countReplicant, p2countReplicant).then(() => {
+        
+        nodecg.readReplicant('title', value => {
+        titleform.value = value;
+        });
+
+        nodecg.readReplicant('p1name', value => {
+            player1.value = value;
+        });
+
+        nodecg.readReplicant('p2name', value => {
+            player2.value = value;
+        });
+
+     nodecg.readReplicant('count1', value => {
+        p1countView.value = value;
+        });
+
+        nodecg.readReplicant('count2', value => {
+        p2countView.value = value;
+        });
+
+});
+
+
+        p1incEl.addEventListener('click', () => {
+            p1countView.value = p1countReplicant.value += 1
+        })
+
+        p1decEl.addEventListener('click', () => {
+            if(p1countReplicant.value > 0){ 
+            p1countView.value = p1countReplicant.value -= 1
+            }
+        })
+
+        p2incEl.addEventListener('click', () => {
+            p2countView.value = p2countReplicant.value += 1
+        })
+
+        p2decEl.addEventListener('click', () => {
+            if(p2countReplicant.value > 0){ 
+            p2countView.value = p2countReplicant.value -= 1
+            }
+        })
+
+        loadButton.addEventListener('click',() => {
+
+            var redObj = redTeam.value;
+
+            for (var i = 0; i < redObj.length; i++) {
+                if (redObj[i].checked == true) {
+                    player1.value = redObj[i].text;
+                    p1Rep.value = player1.value;
+                    p1countView.value = 0;
+                    p1countReplicant.value = 0;
+                }
+            }
+
+            var whiteObj = whiteTeam.value;
+
+            for (var i = 0; i < whiteObj.length; i++) {
+            if (whiteObj[i].checked == true) {
+            player2.value = whiteObj[i].text;
+            p2Rep.value = player2.value;
+            p2countView.value = 0;
+            p2countReplicant.value = 0;
+    }
+}
+
+
+        })
+
+        submitButton.onclick = () => {
+        titleRep.value = titleform.value;
+        p1Rep.value = player1.value;
+        p2Rep.value = player2.value;
+    }
+
+    clearButton.onclick = () => {
+        titleRep.value = titleform.value = "";
+        p1Rep.value = player1.value = "";
+        p2Rep.value = player2.value = "";
+        p1countView.value = p1countReplicant.value = 0;
+        p2countView.value = p2countReplicant.value = 0;
+    }
+
+</script>
+</html>
