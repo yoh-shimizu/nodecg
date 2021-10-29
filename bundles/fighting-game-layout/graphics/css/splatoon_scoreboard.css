@@ -53,11 +53,11 @@ body {
 	letter-spacing: 0.05em;
 }
 
-#OrangeScore {
+#team1_score {
 	left: 13px;
 }
 
-#BlueScore {
+#team2_score {
 	left: 1197px;
 }
 
@@ -85,12 +85,12 @@ body {
 	color: #efeaff;
 }
 
-#OrangeTeamName {
+#team1_name {
 	left: 12px;
 	text-shadow: 1px 4px 4px #5f3301;
 }
 
-#BlueTeamName {
+#team2_name {
 	left: 1198px;
 	text-shadow: 1px -4px 4px #011f5f;
 }
