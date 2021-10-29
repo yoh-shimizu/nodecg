@@ -10,7 +10,7 @@ body {
 	left:0px;
 	width:1280px;
 	height:720px;
-	background-image: url('../images/splatoon_scoreboard.png');
+	background-image: url('../img/splatoon_scoreboard.png');
 }
 
 @font-face {
@@ -111,22 +111,22 @@ body {
 	letter-spacing: 0.05em;
 }
 
-#OrangePlayer1 {
+#player_one {
 	left: 166px;
 	top: 657px;
 }
 
-#OrangePlayer2 {
+#player_two {
 	left: 372px;
 	top: 657px;
 }
 
-#OrangePlayer3 {
+#player_three {
 	left: 166px;
 	top: 686px;
 }
 
-#OrangePlayer4 {
+#player_four {
 	left: 372px;
 	top: 686px;
 }
@@ -147,22 +147,22 @@ body {
 	letter-spacing: 0.05em;
 }
 
-#BluePlayer1 {
+#player_five {
 	left: 746px;
 	top: 657px;
 }
 
-#BluePlayer2 {
+#player_six {
 	left: 952px;
 	top: 657px;
 }
 
-#BluePlayer3 {
+#player_seven {
 	left: 746px;
 	top: 686px;
 }
 
-#BluePlayer4 {
+#player_eight {
 	left: 952px;
 	top: 686px;
 }
