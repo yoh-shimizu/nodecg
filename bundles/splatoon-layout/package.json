@@ -1,5 +1,5 @@
 {
-  "name": "fighting-game-layout",
+  "name": "splatoon-layout",
   "version": "1.4.0",
   "description": "",
   "main": "index.js",
@@ -17,50 +17,9 @@
           "name": "splatoon",
           "title": "スプラトゥーンスコアボード",
           "file": "splatoon.html"
-        },
-        {
-          "width": "8",
-          "name": "kohaku",
-          "title": "紅白メンバー表",
-          "file": "kohaku.html"
-        },
-        {
-          "width": "8",
-          "name": "lifepoint",
-          "title": "ライフポイント対抗戦|早稲田式2on",
-          "file": "lifepoint.html"
         }
       ],
       "graphics": [
-        {
-          "file": "kohaku.html",
-          "width": 1280,
-          "height": 720
-        },
-        {
-          "file": "lifepoint.html",
-          "width": 1280,
-          "height": 720
-        },
-        { "file": "3on.html",
-          "width": 1280,
-          "height": 720
-        },
-        {
-          "file": "score_long.html",
-          "width": 1280,
-          "height": 720
-        },
-        {
-          "file": "score_short.html",
-          "width": 1280,
-          "height": 720
-        },
-        {
-          "file": "waseda.html",
-          "width": 1280,
-          "height": 720
-        },
         {
           "file": "splatoon_scoreboard.html",
           "width": 1280,
