@@ -69,7 +69,11 @@ body {
 	line-height: 38px;
 	font-family: 'MPlus';
 	font-size: 28px;
-	text-shadow: -1px -1px 0px #00224e;
+	text-shadow: 
+		1px  1px 4px #000931,
+		1px -1px 4px #000931,
+		-1px  1px 4px #000931,
+		-1px -1px 4px #000931;
 	letter-spacing: 0.05em;
 }
 
