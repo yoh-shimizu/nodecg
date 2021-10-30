@@ -13,6 +13,14 @@ body {
 	background-image: url('../img/splatoon_scoreboard.png');
 }
 
+#no-board {
+	position:absolute;
+	top:0px;
+	left:0px;
+	width:1280px;
+	height:720px;
+}
+
 @font-face {
 	font-family: 'Round';
 	src: url('../fonts/cprevenge_tte/CP_Revenge.ttf');

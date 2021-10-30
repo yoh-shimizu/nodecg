@@ -1,6 +1,6 @@
 {
   "name": "splatoon-layout",
-  "version": "1.4.0",
+  "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "author": "",
@@ -22,6 +22,11 @@
       "graphics": [
         {
           "file": "splatoon_scoreboard.html",
+          "width": 1280,
+          "height": 720
+        },
+        {
+          "file": "no_board_splatoon_scoreboard.html",
           "width": 1280,
           "height": 720
         }
