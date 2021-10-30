@@ -113,8 +113,13 @@
     <div id="folder">
         <div class="content">
 
-            <button id="submitButton">名前反映</button><button id="clearButton">クリア</button>
-            <button id="loadButton">紅白戦名前呼出</button>
+            <button id="submitButton">名前反映</button>
+            <br>
+            <button id="clearButton">クリア</button>
+            <br>
+            <label>TEAM1エントリーナンバー</label>
+            <input id="t1entry" type="text" class="countview">
+            <button id="loadButton">CSV読み込み</button>
 
         </div>
 
@@ -247,30 +252,12 @@
     })
 
     loadButton.addEventListener('click', () => {
-
-        var redObj = redTeam.value;
-
-        for (var i = 0; i < redObj.length; i++) {
-            if (redObj[i].checked == true) {
-                player1.value = redObj[i].text;
-                p1Rep.value = player1.value;
-                p1countView.value = 0;
-                p1countReplicant.value = 0;
-            }
-        }
-
-        var whiteObj = whiteTeam.value;
-
-        for (var i = 0; i < whiteObj.length; i++) {
-            if (whiteObj[i].checked == true) {
-                player2.value = whiteObj[i].text;
-                p2Rep.value = player2.value;
-                p2countView.value = 0;
-                p2countReplicant.value = 0;
-            }
-        }
-
-
+        var req = new XMLHttpRequest(); // HTTPでファイルを読み込むためのXMLHttpRrequestオブジェクトを生成
+        req.open("get", "entry.csv", true); // アクセスするファイルを指定
+        req.onload = () => {
+            console.log(req.responseText);
+        };
+        req.send(null); // HTTPリクエストの発行
     })
 
     submitButton.onclick = () => {
