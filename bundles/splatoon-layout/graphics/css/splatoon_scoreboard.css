@@ -21,7 +21,7 @@ body {
 #round {
 	position:absolute;
 	left: 362px;
-	top: 12px;
+	top: 5px;
 	width: 551px;
 	height: 38px;
 	line-height: 38px;
@@ -39,7 +39,7 @@ body {
 
 .score {
 	position:absolute;
-	top: 12px;
+	top: 638px;
 	width: 73px;
 	height: 73px;
 	line-height: 73px;
@@ -62,19 +62,15 @@ body {
 }
 
 .team-name {
-    -webkit-writing-mode: vertical-rl;
-    -ms-writing-mode: tb-rl;
-        writing-mode: vertical-rl;
-
 	position:absolute;
-	top: 131px;
-	width: 69px;
-	height: 509px;
-	line-height: 69px;
+	top: 5px;
+	width: 551px;
+	height: 38px;
+	line-height: 38px;
 	font-family: 'MPlus';
-	font-size: 50px;
-	text-align: left;
-	letter-spacing: 0.01em;
+	font-size: 28px;
+	text-shadow: -1px -1px 0px #00224e;
+	letter-spacing: 0.05em;
 }
 
 .orange-color {
@@ -87,11 +83,13 @@ body {
 
 #team1_name {
 	left: 12px;
-	text-shadow: 1px 4px 4px #5f3301;
+	text-align: start;
+	text-shadow: 1px -4px 4px #011f5f;
 }
 
 #team2_name {
-	left: 1198px;
+	left: 708px;
+	text-align: end;
 	text-shadow: 1px -4px 4px #011f5f;
 }
 
