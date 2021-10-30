@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-    <meta charset="UTF-8">
-    <style>
+    <head>
+        <meta charset="UTF-8">
+        <style>
         * {
             font-size: 20px;
         }
@@ -31,102 +31,106 @@
     </style>
 </head>
 
-<body>
-    <div id="folder">
-        <div class="content">
-            <label>タイトル</label>
-            <input id="titleform" class="team" type="text" placeholder="BO5">
-        </div>
+        <body>
+            <div id="folder">
+                <div class="content">
+                    <label>タイトル</label>
+                    <input class="team" id="titleform" placeholder="BO5" type="text">
+                </div>
 
-        <hr>
-        <div class="container">
-            <div>
-                <label>TEAM1</label>
-                <br>
-                <input id="team1" class="team" type="text" placeholder="アルファチーム">
+                <hr>
+                <div class="container">
+                    <div>
+                        <label>TEAM1</label>
+                        <br>
+                        <input class="team" id="team1" placeholder="アルファチーム" type="text">
 
-                <input id="p1count" type="text" class="countview" readonly>
-                <button id="p1inc">+1</button>
-                <button id="p1dec">-1</button>
-                <br>
+                        <input class="countview" id="p1count" readonly type="text">
+                        <button id="p1inc">+1</button>
+                        <button id="p1dec">-1</button>
+                        <br>
+                    </div>
+                    <div>
+                        <label>TEAM2</label>
+                        <br>
+                        <input class="team" id="team2" placeholder="ブラボーチーム" type="text">
+
+                        <input class="countview" id="p2count" readonly type="text">
+                        <button id="p2inc">+1</button>
+                        <button id="p2dec">-1</button>
+                        <br>
+                    </div>
+                </div>
+
+                <hr>
+
+                <div class="container">
+                    <div>
+                        <label>TEAM1_P1</label>
+                        <br>
+                        <input class="team" id="player1" placeholder="プレイヤー1" type="text">
+                        <br>
+
+                        <label>TEAM1_P2</label>
+                        <br>
+                        <input class="team" id="player2" placeholder="プレイヤー2" type="text">
+                        <br>
+
+                        <label>TEAM1_P3</label>
+                        <br>
+                        <input class="team" id="player3" placeholder="プレイヤー3" type="text">
+                        <br>
+
+                        <label>TEAM1_P4</label>
+                        <br>
+                        <input class="team" id="player4" placeholder="プレイヤー4" type="text">
+                        <br>
+                    </div>
+
+                    <div>
+                        <label>TEAM2_P1</label>
+                        <br>
+                        <input class="team" id="player5" placeholder="プレイヤー5" type="text">
+                        <br>
+
+                        <label>TEAM2_P2</label>
+                        <br>
+                        <input class="team" id="player6" placeholder="プレイヤー6" type="text">
+                        <br>
+
+                        <label>TEAM2_P3</label>
+                        <br>
+                        <input class="team" id="player7" placeholder="プレイヤー7" type="text">
+                        <br>
+
+                        <label>TEAM2_P4</label>
+                        <br>
+                        <input class="team" id="player8" placeholder="プレイヤー8" type="text">
+                        <br>
+                    </div>
+                </div>
             </div>
-            <div>
-                <label>TEAM2</label>
-                <br>
-                <input id="team2" class="team" type="text" placeholder="ブラボーチーム">
+            <div id="folder">
+                <div class="content">
 
-                <input id="p2count" type="text" class="countview" readonly>
-                <button id="p2inc">+1</button>
-                <button id="p2dec">-1</button>
-                <br>
-            </div>
-        </div>
+                    <button id="submitButton">名前反映</button>
+                    <br>
+                    <button id="clearButton">クリア</button>
+                    <br>
+                    <label>TEAM1エントリーナンバー</label>
+                    <input class="countview" id="t1entryNumber" type="text">
+                    <br>
+                    <label>TEAM2エントリーナンバー</label>
+                    <input class="countview" id="t2entryNumber" type="text">
+                    <br>
+                    <button id="loadButton">CSV読み込み</button>
 
-        <hr>
+                </div>
 
-        <div class="container">
-            <div>
-                <label>TEAM1_P1</label>
-                <br>
-                <input id="player1" class="team" type="text" placeholder="プレイヤー1">
-                <br>
-
-                <label>TEAM1_P2</label>
-                <br>
-                <input id="player2" class="team" type="text" placeholder="プレイヤー2">
-                <br>
-
-                <label>TEAM1_P3</label>
-                <br>
-                <input id="player3" class="team" type="text" placeholder="プレイヤー3">
-                <br>
-
-                <label>TEAM1_P4</label>
-                <br>
-                <input id="player4" class="team" type="text" placeholder="プレイヤー4">
-                <br>
             </div>
 
-            <div>
-                <label>TEAM2_P1</label>
-                <br>
-                <input id="player5" class="team" type="text" placeholder="プレイヤー5">
-                <br>
-
-                <label>TEAM2_P2</label>
-                <br>
-                <input id="player6" class="team" type="text" placeholder="プレイヤー6">
-                <br>
-
-                <label>TEAM2_P3</label>
-                <br>
-                <input id="player7" class="team" type="text" placeholder="プレイヤー7">
-                <br>
-
-                <label>TEAM2_P4</label>
-                <br>
-                <input id="player8" class="team" type="text" placeholder="プレイヤー8">
-                <br>
-            </div>
-        </div>
-    </div>
-    <div id="folder">
-        <div class="content">
-
-            <button id="submitButton">名前反映</button>
-            <br>
-            <button id="clearButton">クリア</button>
-            <br>
-            <label>TEAM1エントリーナンバー</label>
-            <input id="t1entry" type="text" class="countview">
-            <button id="loadButton">CSV読み込み</button>
-
-        </div>
-
-    </div>
-
-</body>
-<script>
+        </body>
+        <script>
 
     const titleform = document.getElementById("titleform");
     const titleRep = nodecg.Replicant("title", { defaultValue: "" });
@@ -171,10 +175,18 @@
     const p2countView = document.getElementById('p2count')
     const p2countReplicant = nodecg.Replicant('count2', { defaultValue: 0 })
 
+    const t1entrytView = document.getElementById("t1entryNumber");
+    const t1entrytReplicant = nodecg.Replicant('t1entry', { defaultValue: 1 })
+
+    const t2entrytView = document.getElementById("t2entryNumber");
+    const t2entrytReplicant = nodecg.Replicant('t2entry', { defaultValue: 1 })
+
     const redTeam = nodecg.Replicant("redTeam");
     const whiteTeam = nodecg.Replicant("whiteTeam");
 
-    NodeCG.waitForReplicants(titleRep, t1Rep, t2Rep, p1Rep, p2Rep, p3Rep, p4Rep, p5Rep, p6Rep, p7Rep, p8Rep, p1countReplicant, p2countReplicant).then(() => {
+    NodeCG.waitForReplicants(
+        titleRep, t1Rep, t2Rep, p1Rep, p2Rep, p3Rep, p4Rep, p5Rep, p6Rep, p7Rep, p8Rep, p1countReplicant, p2countReplicant, t1entrytReplicant, t2entrytReplicant
+        ).then(() => {
 
         nodecg.readReplicant('title', value => {
             titleform.value = value;
@@ -226,6 +238,14 @@
 
         nodecg.readReplicant('count2', value => {
             p2countView.value = value;
+        });
+
+        nodecg.readReplicant('t1entry', value => {
+            t1entrytView.value = value;
+        });
+
+        nodecg.readReplicant('t2entry', value => {
+            t2entrytView.value = value;
         });
 
     });
