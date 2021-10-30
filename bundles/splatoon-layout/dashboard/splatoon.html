@@ -179,7 +179,7 @@
     const t1entrytReplicant = nodecg.Replicant('t1entry', { defaultValue: 1 })
 
     const t2entrytView = document.getElementById("t2entryNumber");
-    const t2entrytReplicant = nodecg.Replicant('t2entry', { defaultValue: 1 })
+    const t2entrytReplicant = nodecg.Replicant('t2entry', { defaultValue: 2 })
 
     const redTeam = nodecg.Replicant("redTeam");
     const whiteTeam = nodecg.Replicant("whiteTeam");
@@ -275,7 +275,32 @@
         var req = new XMLHttpRequest(); // HTTPでファイルを読み込むためのXMLHttpRrequestオブジェクトを生成
         req.open("get", "entry.csv", true); // アクセスするファイルを指定
         req.onload = () => {
-            console.log(req.responseText);
+            const t1arrayNum = t1entrytView.value - 1;
+            const t2arrayNum = t2entrytView.value - 1;
+
+            // csvを配列に格納
+            var csvArr = [];
+            var lines = req.responseText.split("\n");
+            for (var i = 0; i < lines.length; ++i) {
+                var cells = lines[i].split(",");
+                if (cells.length != 1) {
+                    csvArr.push(cells);
+                }
+            };
+            var t1array = csvArr[t1arrayNum];
+            var t2array = csvArr[t2arrayNum];
+
+            // チーム名、メンバー名代入
+            team1.value = t1array[0];
+            player1.value = t1array[1];
+            player2.value = t1array[2];
+            player3.value = t1array[3];
+            player4.value = t1array[4];
+            team2.value = t2array[0];
+            player5.value = t2array[1];
+            player6.value = t2array[2];
+            player7.value = t2array[3];
+            player8.value = t2array[4];
         };
         req.send(null); // HTTPリクエストの発行
     })
