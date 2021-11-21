@@ -115,5 +115,17 @@
       team1.style.fontSize = newValue+'px'
       team2.style.fontSize = newValue+'px'
     })
+
+    const pfontsize_view = nodecg.Replicant('pFontSize', { defaultValue: 24 })
+    pfontsize_view.on('change', newValue => {
+      player_one.style.fontSize = newValue+'px'
+      player_two.style.fontSize = newValue+'px'
+      player_three.style.fontSize = newValue+'px'
+      player_four.style.fontSize = newValue+'px'
+      player_five.style.fontSize = newValue+'px'
+      player_six.style.fontSize = newValue+'px'
+      player_seven.style.fontSize = newValue+'px'
+      player_eight.style.fontSize = newValue+'px'
+    })
   </script>
 </html>

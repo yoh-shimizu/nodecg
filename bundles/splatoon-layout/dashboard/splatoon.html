@@ -133,6 +133,11 @@
                         <br>
                     </div>
                 </div>
+                <input class="fontSize" id="playerFontSize" readonly type="text">
+                <label>px</label>
+                <button id="pfsinc">+1</button>
+                <button id="pfsdec">-1</button>
+                <label>デフォルト：24px</label>
             </div>
             <div id="folder">
                 <div class="content">
@@ -218,18 +223,24 @@
     const teamFontSizeVerticalView = document.getElementById("teamFontSizeVertical")
     const tFontSizeVerticalRep = nodecg.Replicant('tFontSizeVertical', { defaultValue: 35 })
 
-    const teamFontSizeView = document.getElementById("teamFontSize")
-    const tFontSizeRep = nodecg.Replicant('tFontSize', { defaultValue: 28 })
-
     const tfsvincEl = document.getElementById('tfsvinc')
     const tfsvdecEl = document.getElementById('tfsvdec')
+
+    const teamFontSizeView = document.getElementById("teamFontSize")
+    const tFontSizeRep = nodecg.Replicant('tFontSize', { defaultValue: 28 })
 
     const tfsincEl = document.getElementById('tfsinc')
     const tfsdecEl = document.getElementById('tfsdec')
 
+    const playerFontSizeView = document.getElementById("playerFontSize")
+    const pFontSizeRep = nodecg.Replicant('pFontSize', { defaultValue: 24 })
+
+    const pfsincEl = document.getElementById('pfsinc')
+    const pfsdecEl = document.getElementById('pfsdec')
+
     NodeCG.waitForReplicants(
         titleRep, t1Rep, t2Rep, p1Rep, p2Rep, p3Rep, p4Rep, p5Rep, p6Rep, p7Rep, p8Rep, p1countReplicant, p2countReplicant, t1entrytReplicant, t2entrytReplicant,
-        titlefsRep, tFontSizeVerticalRep, tFontSizeRep
+        titlefsRep, tFontSizeVerticalRep, tFontSizeRep, pFontSizeRep
         ).then(() => {
 
         nodecg.readReplicant('title', value => {
@@ -304,6 +315,10 @@
             teamFontSizeView.value = value;
         });
 
+        nodecg.readReplicant('pFontSize', value => {
+            playerFontSizeView.value = value;
+        });
+
     });
 
 
@@ -354,6 +369,16 @@
     tfsdecEl.addEventListener('click', () => {
         if (tFontSizeRep.value > 1) {
             teamFontSizeView.value = tFontSizeRep.value -= 1
+        }
+    })
+
+    pfsincEl.addEventListener('click', () => {
+        playerFontSizeView.value = pFontSizeRep.value += 1
+    })
+
+    pfsdecEl.addEventListener('click', () => {
+        if (pFontSizeRep.value > 1) {
+            playerFontSizeView.value = pFontSizeRep.value -= 1
         }
     })
 
