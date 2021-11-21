@@ -104,5 +104,16 @@
     count2_view.on('change', newValue => {
       team2_score.innerText = newValue
     })
+
+    const titlefs_view = nodecg.Replicant('titlefs', { defaultValue: 28 })
+    titlefs_view.on('change', newValue => {
+      round.style.fontSize = newValue+'px'
+    })
+
+    const tfontsize_view = nodecg.Replicant('tFontSize', { defaultValue: 35 })
+    tfontsize_view.on('change', newValue => {
+      team1.style.fontSize = newValue+'px'
+      team2.style.fontSize = newValue+'px'
+    })
   </script>
 </html>

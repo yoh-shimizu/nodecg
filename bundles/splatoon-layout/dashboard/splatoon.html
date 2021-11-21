@@ -21,6 +21,10 @@
             width: 50px;
         }
 
+        .fontSize {
+            width: 30px;
+        }
+
         .container {
             display: flex;
         }
@@ -36,6 +40,12 @@
                 <div class="content">
                     <label>タイトル</label>
                     <input class="team" id="titleform" placeholder="BO5" type="text">
+                    <br>
+                    <input class="fontSize" id="titleFontSize" readonly type="text">
+                    <label>px</label>
+                    <button id="titlefsinc">+1</button>
+                    <button id="titlefsdec">-1</button>
+                    <label>デフォルト：28px</label>
                 </div>
 
                 <hr>
@@ -48,6 +58,20 @@
                         <input class="countview" id="p1count" readonly type="text">
                         <button id="p1inc">+1</button>
                         <button id="p1dec">-1</button>
+                        <br>
+                        <label>縦書き</label>
+                        <input class="fontSize" id="teamFontSizeVertical" readonly type="text">
+                        <label>px</label>
+                        <button id="tfsvinc">+1</button>
+                        <button id="tfsvdec">-1</button>
+                        <label>デフォルト：35px</label>
+                        <br>
+                        <label>横書き</label>
+                        <input class="fontSize" id="teamFontSize" readonly type="text">
+                        <label>px</label>
+                        <button id="tfsinc">+1</button>
+                        <button id="tfsdec">-1</button>
+                        <label>デフォルト：28px</label>
                         <br>
                     </div>
                     <div>
@@ -184,8 +208,28 @@
     const redTeam = nodecg.Replicant("redTeam");
     const whiteTeam = nodecg.Replicant("whiteTeam");
 
+    // フォントサイズ調整
+    const titleFontSizeView = document.getElementById("titleFontSize")
+    const titlefsRep = nodecg.Replicant('titlefs', { defaultValue: 28 })
+
+    const titlefsincEl = document.getElementById('titlefsinc')
+    const titlefsdecEl = document.getElementById('titlefsdec')
+
+    const teamFontSizeVerticalView = document.getElementById("teamFontSizeVertical")
+    const tFontSizeVerticalRep = nodecg.Replicant('tFontSizeVertical', { defaultValue: 35 })
+
+    const teamFontSizeView = document.getElementById("teamFontSize")
+    const tFontSizeRep = nodecg.Replicant('tFontSize', { defaultValue: 28 })
+
+    const tfsvincEl = document.getElementById('tfsvinc')
+    const tfsvdecEl = document.getElementById('tfsvdec')
+
+    const tfsincEl = document.getElementById('tfsinc')
+    const tfsdecEl = document.getElementById('tfsdec')
+
     NodeCG.waitForReplicants(
-        titleRep, t1Rep, t2Rep, p1Rep, p2Rep, p3Rep, p4Rep, p5Rep, p6Rep, p7Rep, p8Rep, p1countReplicant, p2countReplicant, t1entrytReplicant, t2entrytReplicant
+        titleRep, t1Rep, t2Rep, p1Rep, p2Rep, p3Rep, p4Rep, p5Rep, p6Rep, p7Rep, p8Rep, p1countReplicant, p2countReplicant, t1entrytReplicant, t2entrytReplicant,
+        titlefsRep, tFontSizeVerticalRep, tFontSizeRep
         ).then(() => {
 
         nodecg.readReplicant('title', value => {
@@ -248,6 +292,18 @@
             t2entrytView.value = value;
         });
 
+        nodecg.readReplicant('titlefs', value => {
+            titleFontSizeView.value = value;
+        });
+
+        nodecg.readReplicant('tFontSizeVertical', value => {
+            teamFontSizeVerticalView.value = value;
+        });
+
+        nodecg.readReplicant('tFontSize', value => {
+            teamFontSizeView.value = value;
+        });
+
     });
 
 
@@ -268,6 +324,36 @@
     p2decEl.addEventListener('click', () => {
         if (p2countReplicant.value > 0) {
             p2countView.value = p2countReplicant.value -= 1
+        }
+    })
+
+    titlefsincEl.addEventListener('click', () => {
+        titleFontSizeView.value = titlefsRep.value += 1
+    })
+
+    titlefsdecEl.addEventListener('click', () => {
+        if (titlefsRep.value > 1) {
+            titleFontSizeView.value = titlefsRep.value -= 1
+        }
+    })
+
+    tfsvincEl.addEventListener('click', () => {
+        teamFontSizeVerticalView.value = tFontSizeVerticalRep.value += 1
+    })
+
+    tfsvdecEl.addEventListener('click', () => {
+        if (tFontSizeVerticalRep.value > 1) {
+            teamFontSizeVerticalView.value = tFontSizeVerticalRep.value -= 1
+        }
+    })
+
+    tfsincEl.addEventListener('click', () => {
+        teamFontSizeView.value = tFontSizeRep.value += 1
+    })
+
+    tfsdecEl.addEventListener('click', () => {
+        if (tFontSizeRep.value > 1) {
+            teamFontSizeView.value = tFontSizeRep.value -= 1
         }
     })
 
