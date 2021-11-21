@@ -31,9 +31,10 @@ body {
 }
 
 @font-face {
-	font-family: 'Round';
-	src: url('../fonts/cprevenge_tte/CP_Revenge.ttf');
+	font-family: 'MPlus';
+	src: url('../fonts/ttf/Mplus1Code-Bold.ttf');
 }
+
 
 #round {
 	position:absolute;
@@ -42,7 +43,7 @@ body {
 	width: 551px;
 	height: 38px;
 	line-height: 38px;
-	font-family: 'Round';
+	font-family: 'MPlus';
 	font-size: 28px;
 	text-align: center;
 	text-shadow: -1px -1px 0px #00224e;
@@ -56,16 +57,11 @@ body {
 	width: 1054px;
 	height: 38px;
 	line-height: 38px;
-	font-family: 'Round';
+	font-family: 'MPlus';
 	font-size: 28px;
 	text-align: center;
 	text-shadow: -1px -1px 0px #00224e;
 	letter-spacing: 0.05em;
-}
-
-@font-face {
-	font-family: 'MPlus';
-	src: url('../fonts/mplus-TESTFLIGHT-063/mplus-1c-bold.ttf');
 }
 
 .score {
