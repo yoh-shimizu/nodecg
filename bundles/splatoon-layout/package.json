@@ -26,12 +26,17 @@
           "height": 720
         },
         {
+          "file": "splatoon_scoreboard_vertical.html",
+          "width": 1280,
+          "height": 720
+        },
+        {
           "file": "no_board_splatoon_scoreboard.html",
           "width": 1280,
           "height": 720
         },
         {
-          "file": "splatoon_scoreboard_vertical.html",
+          "file": "no_board_splatoon_scoreboard_vertical.html",
           "width": 1280,
           "height": 720
         }
