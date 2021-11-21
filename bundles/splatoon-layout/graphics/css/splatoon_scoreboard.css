@@ -31,8 +31,8 @@ body {
 }
 
 @font-face {
-	font-family: 'MPlus';
-	src: url('../fonts/ttf/Mplus1Code-Bold.ttf');
+	font-family: 'RocknRollOne';
+	src: url('../fonts/RocknRoll_One/RocknRollOne-Regular.ttf');
 }
 
 
@@ -43,7 +43,7 @@ body {
 	width: 551px;
 	height: 38px;
 	line-height: 38px;
-	font-family: 'MPlus';
+	font-family: 'RocknRollOne';
 	font-size: 28px;
 	text-align: center;
 	text-shadow: -1px -1px 0px #00224e;
@@ -57,7 +57,7 @@ body {
 	width: 1054px;
 	height: 38px;
 	line-height: 38px;
-	font-family: 'MPlus';
+	font-family: 'RocknRollOne';
 	font-size: 28px;
 	text-align: center;
 	text-shadow: -1px -1px 0px #00224e;
@@ -70,7 +70,7 @@ body {
 	width: 73px;
 	height: 73px;
 	line-height: 73px;
-	font-family: 'MPlus';
+	font-family: 'RocknRollOne';
 	font-size: 75px;
 	text-align: center;
 	text-shadow:
@@ -94,7 +94,7 @@ body {
 	width: 551px;
 	height: 38px;
 	line-height: 38px;
-	font-family: 'MPlus';
+	font-family: 'RocknRollOne';
 	font-size: 28px;
 	text-shadow: 
 		1px  1px 4px #000931,
@@ -114,7 +114,7 @@ body {
 	width: 69px;
 	height: 609px;
 	line-height: 69px;
-	font-family: 'MPlus';
+	font-family: 'RocknRollOne';
 	font-size: 35px;
 	text-align: left;
 	text-shadow: 
@@ -160,7 +160,7 @@ body {
 	width: 205px;
 	height: 57px;
 	line-height: 28px;
-	font-family: 'MPlus';
+	font-family: 'RocknRollOne';
 	font-size: 24px;
 	text-align: center;
 	text-shadow: 
@@ -196,7 +196,7 @@ body {
 	width: 205px;
 	height: 57px;
 	line-height: 28px;
-	font-family: 'MPlus';
+	font-family: 'RocknRollOne';
 	font-size: 24px;
 	text-align: center;
 	text-shadow: 
