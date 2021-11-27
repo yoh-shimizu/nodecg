@@ -27,6 +27,8 @@
     
   <script>
 
+    const board = document.getElementById("board_vertical");
+
     const round = document.getElementById("round_vertical");
     const roundView = nodecg.Replicant("title");
     roundView.on("change", newValue => {
@@ -126,6 +128,24 @@
       player_six.style.fontSize = newValue+'px'
       player_seven.style.fontSize = newValue+'px'
       player_eight.style.fontSize = newValue+'px'
+    })
+
+    const backboard = nodecg.Replicant('backboard', { defaultValue: 'xkai' })
+    backboard.on('change', newValue => {
+      switch (newValue) {
+        case 'xkai':
+          board.style.backgroundImage = "url('./img/xkai_backboard_vertical.png')";
+          break;
+        case 'orange_blue':
+          board.style.backgroundImage = "url('./img/orange_blue_backboard_vertical.png')";
+          break;
+        case 'no_backboard':
+          board.style.backgroundImage = "";
+          break;
+        default:
+          board.style.backgroundImage = "";
+        break;
+      }
     })
   </script>
 </html>
