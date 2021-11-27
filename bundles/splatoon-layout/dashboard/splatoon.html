@@ -38,6 +38,16 @@
         <body>
             <div id="folder">
                 <div class="content">
+                    <label>バックボード</label>
+                    <select name="backboard" id="backboard-select">
+                        <option value="xkai">X-KAI</option>
+                        <option value="orange_blue">オレンジ・ブルー</option>
+                        <option value="no_backboard">バックボードなし</option>
+                    </select>
+                    <br>
+                </div>
+                <hr>
+                <div class="content">
                     <label>タイトル</label>
                     <input class="team" id="titleform" placeholder="BO5" type="text">
                     <br>
@@ -161,6 +171,9 @@
         </body>
         <script>
 
+    const backboard = document.getElementById("backboard-select");
+    const backboardRep = nodecg.Replicant("backboard", { defaultValue: "xkai" });
+
     const titleform = document.getElementById("titleform");
     const titleRep = nodecg.Replicant("title", { defaultValue: "" });
 
@@ -239,9 +252,13 @@
     const pfsdecEl = document.getElementById('pfsdec')
 
     NodeCG.waitForReplicants(
-        titleRep, t1Rep, t2Rep, p1Rep, p2Rep, p3Rep, p4Rep, p5Rep, p6Rep, p7Rep, p8Rep, p1countReplicant, p2countReplicant, t1entrytReplicant, t2entrytReplicant,
+        backboardRep, titleRep, t1Rep, t2Rep, p1Rep, p2Rep, p3Rep, p4Rep, p5Rep, p6Rep, p7Rep, p8Rep, p1countReplicant, p2countReplicant, t1entrytReplicant, t2entrytReplicant,
         titlefsRep, tFontSizeVerticalRep, tFontSizeRep, pFontSizeRep
         ).then(() => {
+
+        nodecg.readReplicant('backboard', value => {
+            backboard.value = value;
+        });
 
         nodecg.readReplicant('title', value => {
             titleform.value = value;
@@ -320,6 +337,10 @@
         });
 
     });
+
+    backboard.addEventListener('change', () => {
+         backboardRep.value = backboard.value
+    })
 
 
     p1incEl.addEventListener('click', () => {
